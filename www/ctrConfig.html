@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TX3251传输模块配置</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="assets/flexslider/flexslider.css">
+        <link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body onload="GetConfig()">
+        
+        <!-- Top menu -->
+		<nav class="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+						<span class="sr-only">&nbsp;</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">&nbsp;</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="top-navbar-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="main.html"><i class="fa fa-calendar" style="font-size:35px;color:green;"></i><br>设备状态</a>
+						</li>
+						<li  class="active">
+							<a href="ctrConfig.html"><i class="fa fa-cogs" style="font-size:35px;color:green;"></i><br>控制器设置</a>
+						</li>
+						<li>
+							<a href="ipConfig.html"><i class="fa fa-sitemap" style="font-size:35px;color:green;"></i><br>网络设置</a>
+						</li>
+						<li>
+							<a href="waterConfig.html"><i class="fa fa-tint" style="font-size:35px;color:green;"></i><br>水系统配置</a>
+						</li>
+						<li>
+							<a href="update.html"><i class="fa fa-angle-double-up" style="font-size:40px;color:green;"></i><br>设备升级</a>
+						</li>
+						<li>
+							<a href="debugLog.html"><i class="fa fa-key" style="font-size:40px;color:green;"></i><br>调试日志</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+        <!-- Slider -->
+        <div class="slider-container">
+          <iframe name="server" style="display:none;" src=' '></iframe> 
+			<form  id="dataForm" name="dataForm" action="/cgi-bin/ctrConfig.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
+			<table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px">
+			<caption style="font-size:24px ;font-weight:bold;color:red" align="top">控制器连接配置</caption>
+			<tr>
+			<td align="right" width="40%" style="color: black;font-weight:bold;">控制器厂家:</td>
+			<td align="left">&nbsp;&nbsp;
+				<select name="controllerfactory" id="controllerfactory" style="width:300px;" onChange="filterNet();">
+				</select>
+			</td>
+			</tr>
+			<tr>
+			<td align="right" width="40%" style="color: black;font-weight:bold;">控制器类型:</td>
+			<td align="left">&nbsp;&nbsp;
+				<select name="controllertype" id="controllertype" style="width:300px;" onChange="filterNet();">
+				  <option value="1">火灾报警控制器</option>
+				  <option value="10">可燃气体报警控制器</option>
+				  <option value="11">电气火灾监控设备</option>
+				  <option value="22">气体灭火控制器</option>
+				  <option value="31">消防设备电源监控器</option>
+				  <option value="34">防火门监控器</option>
+				  <option value=""></option>
+				</select>
+			</td>
+			</tr>
+			<tr>
+			<td align="right" width="40%" style="color: black;font-weight:bold;">连接方式:</td>
+			<td align="left">&nbsp;&nbsp;
+				<select name="controllermode" id="controllermode" style="width:300px;">
+				</select>
+			</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">控制器ID:</td>
+			<td align="left">&nbsp;&nbsp;
+			    <input name="controllerid" style="width:300px;" id ="controlleridid" value="1">
+			</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">通讯接口选择:</td>
+			  <td align="left">&nbsp;&nbsp;
+			  <input type="radio" id=Porttypea232 name="portcheck" value="1" checked="checked">RS232
+			  &nbsp;&nbsp;&nbsp;&nbsp;
+			  <input type="radio" id=Porttypeb485 name="portcheck" value="2">RS485
+			  </td></tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">波特率:</td>
+			  <td align="left">&nbsp;&nbsp;
+			   <select name ="baudRate" id="baudRate" style="width:300px;"></select>
+			  </td>
+			</tr>
+			<tr><td></td><td align="left" style="height:60px;">
+                 <input class ="button" Style="border-radius:5px;background:green;width:150px;height:40px;font-size:24px ;font-weight:bold;color:white" 
+                 id="btnSubmit" input type="button" name="btnSubmit" onclick="ShowLoadNew()"  value="确认">
+			</tr>
+			</table>
+			</form>
+			<br><br>
+        </div>
+
+        
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="footer-copyright wow fadeIn" style="height:50px;">
+                        <p>&copy; 中消云物联网科技研究院</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/flexslider/jquery.flexslider-min.js"></script>
+        <script src="assets/js/jflickrfeed.min.js"></script>
+        <script src="assets/js/masonry.pkgd.min.js"></script>
+        <script src="assets/js/jquery.ui.map.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+    
+<script type="text/javascript">
+
+function baudratepress(bauset, selObj)
+{
+	bauset=bauset.trim();
+	var baulib=new Array("2400","4800","9600","14400","19200","38400","57600","115200","230400","460800","921600");
+	var Option = document.createElement("OPTION");
+	Option.value = bauset;
+	Option.text = bauset;
+	selObj.options.add(Option);
+	for(var i=0 ; i<baulib.length ; i++)
+	{
+		if(bauset==baulib[i])
+		{
+			continue;
+		}
+		var Option = document.createElement("OPTION");
+		Option.value=baulib[i];
+		Option.text=baulib[i];
+		selObj.options.add(Option);
+	}
+}
+
+var IsSelect232Port=0;			//判断是否选择232或者485选择框
+var IsSelect485Port=0;
+
+
+/***************************************************************************/
+/**这部分是获取配置文件信息显示*****/
+/***************************************************************************/
+/***************************************************************************/
+	/*
+ *创建异步访问对象
+ */
+function createXHR()
+{ 
+	try
+    {
+	   // Firefox, Opera 8.0+, Safari
+	    xhr=new XMLHttpRequest();
+    }
+	catch (e)
+	{
+	  // Internet Explorer
+		try
+	    {
+	    	xhr=new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    catch (e)
+	    {
+	    	try
+	        {
+	         	xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	     	}
+	  		catch (e)
+	     	{
+	     		alert("您的浏览器不支持AJAX！");
+	     		return false;
+	     	}
+	  	}
+	}
+	return xhr;
+ }
+
+/*
+ *异步访问提交处理
+ */
+function GetConfig() 
+{
+	
+	IsSelect232Port=0;
+	IsSelect485Port=0;
+	var xhr;
+    xhr = createXHR();
+
+    if(xhr)
+    {
+        xhr.onreadystatechange=callbackFunction;
+    
+
+        //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+        xhr.open("GET", "cgi-bin/ctrConfig.cgi?getconf" + new Date().getTime());
+        xhr.send(null);
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+var Systype;
+var soList = new Array();
+
+//数据处理函数
+function dataProcess(returnValue){
+	//以/\n切割字符串
+	var str0 = returnValue.split('/');
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+	
+	var selSo = "";
+	str0.forEach(function (eachData){
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		//console.log(str1[0]);
+		switch(str1[0]){
+		    case "controllertype":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("controllertype");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+			case "controllerid":
+				document.getElementById("controlleridid").value = str1[1];
+				break;
+			case "Portselect":
+				var value=Number(str1[1]);
+				if(1==value)
+				{
+					IsSelect232Port=1;
+					document.getElementById("Porttypea232").checked=true;
+					document.getElementById("Porttypeb485").checked=false;
+				}
+				else if(2==value)
+				{
+					IsSelect485Port=1;
+        			document.getElementById("Porttypea232").checked=false;		
+					document.getElementById("Porttypeb485").checked=true;
+				}
+				else
+				{
+					IsSelect232Port=1;
+					IsSelect485Port=1;
+					document.getElementById("Porttypea232").checked=true;
+					document.getElementById("Porttypeb485").checked=false;
+				}
+				break;
+			case "bau232":		
+				baudratepress(str1[1] , document.getElementById("baudRate"));
+				break;
+			case "Lib232":			
+				selSo=str1[1];		
+				break;
+			case "setnet232":				
+				soList.push(str1[1]);		
+				break;
+			case "readend":
+				xhr.abort();
+				break;
+		}
+	})
+	
+	//下拉框赋值
+	var strFactorys = "";
+	var strSelInfo = "";
+	for (var i = 0; i < soList.length; i++) 
+	{
+		var strList = soList[i].split("@");
+		if(strList.length != 4) 
+		{
+			continue;
+		}
+		var factoryName = strList[0];
+		if(strFactorys.indexOf(factoryName) == -1)
+		{
+			//厂家赋值
+			var factory = document.getElementById("controllerfactory");
+			var Option = document.createElement("OPTION");
+			Option.value = factoryName;
+			Option.text = factoryName;
+			factory.options.add(Option);
+			
+			strFactorys += factoryName;
+		}
+		
+		var soName = strList[3];
+		if(soName == selSo)
+		{
+		    strSelInfo = soList[i];
+		}
+    }
+    
+	var factory = document.getElementById("controllerfactory");
+	var Option = document.createElement("OPTION");
+	Option.value = "";
+	Option.text = "";
+	factory.options.add(Option);
+    
+	var strSelList = strSelInfo.split("@");
+	var selFactoryName = strSelList[0];
+	var selSoName = strSelList[3];
+	document.getElementById('controllerfactory').value = selFactoryName;
+	
+    //连接方式赋值
+   var ctrType = document.getElementById("controllertype").options[document.getElementById("controllertype").selectedIndex].text;
+   for (var i = 0; i < soList.length; i++) 
+	{
+		var strList = soList[i].split("@");
+		if(strList.length != 4) 
+		{
+			continue;
+		}
+		var factoryName = strList[0];
+		var ctrTypeName = strList[1];
+		var soName = strList[3];
+		if(selFactoryName == factoryName && ctrType.indexOf(ctrTypeName) != -1)
+		{
+			var netMode= document.getElementById("controllermode");
+			var Option = document.createElement("OPTION");
+			Option.value = soName;
+			Option.text = strList[2];
+			netMode.options.add(Option);
+		}
+    }
+    
+   document.getElementById("controllermode").value = selSoName;
+}
+
+//根据厂家和控制器类型过滤协议
+function filterNet()
+{
+	var factory = document.getElementById("controllerfactory").value;
+	var netMode= document.getElementById("controllermode");
+	netMode.options.length = 0;
+	var ctrType = document.getElementById("controllertype").options[document.getElementById("controllertype").selectedIndex].text;
+	for (var i = 0; i < soList.length; i++) 
+	{
+		var strList = soList[i].split("@");
+		if(strList.length != 4) 
+		{
+			continue;
+		}
+		var factoryName = strList[0];
+		var ctrTypeName = strList[1];
+		var soName = strList[3];
+		if(factory == factoryName && ctrType.indexOf(ctrTypeName) != -1)
+		{
+			var Option = document.createElement("OPTION");
+			Option.value = soName;
+			Option.text = strList[2];
+			netMode.options.add(Option);
+		}
+	}
+}
+
+		
+/*
+ *异步回调函数处理
+ */
+function callbackFunction()
+{
+    if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+            	console.log(returnValue);
+                dataProcess(returnValue);
+            }
+            else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+           console.log("页面出现异常！");
+        }
+    }
+}	
+
+function ShowLoadNew()
+{
+   document.dataForm.submit();
+   document.getElementById("btnSubmit").disabled = true;
+   document.getElementById("btnSubmit").style.background="gray";
+   setTimeout(function (){
+		alert("设置成功！");
+		window.location.reload();
+	},2000);
+}
+
+</script>
+
+</body>
+</html>

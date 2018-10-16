@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TX3251传输模块配置</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="assets/flexslider/flexslider.css">
+        <link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+        
+		<style>
+			#box{
+				width:400px;
+				height:150px;
+				border:1px solid black;
+				border-radius:5px;
+				position:relative;
+				background-color: darkgray;top:0px;/*改变此数值，改变显示位置*/
+				left:500px;/*改变此数值，改变显示位置*/
+				display:none;
+			}
+			#proBox{
+				width:300px;
+				height:15px;
+				border:1px solid black;
+				border-radius:10px;
+				position:absolute;
+				top:20px;
+				left:40px;
+			}
+			#proBox .progress{
+				width:0px;height:13px;
+				border-radius:10px;
+				position:absolute;
+				background:green;/*可以加载背景图片：格式：background:url(背景图片地址) x-repeat left center*/
+				top: 0px;
+				left:0px;
+			}
+			#proBox span{
+				position:absolute;
+				top:0px;
+				left:305px;
+				font-size:14px "微软雅黑";
+			}
+			#text{
+				width:300px;
+				text-align: center;
+				line-height:30px;
+				position:absolute;
+				top:35px;
+				left:30px;
+				color:green;
+				font-size:18px;
+				font-weight:bold;
+		    }
+		</style>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body>
+        
+        <!-- Top menu -->
+		<nav class="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+						<span class="sr-only">&nbsp;</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">&nbsp;</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="top-navbar-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="main.html"><i class="fa fa-calendar" style="font-size:35px;color:green;"></i><br>设备状态</a>
+						</li>
+						<li>
+							<a href="ctrConfig.html"><i class="fa fa-cogs" style="font-size:35px;color:green;"></i><br>控制器设置</a>
+						</li>
+						<li>
+							<a href="ipConfig.html"><i class="fa fa-sitemap" style="font-size:35px;color:green;"></i><br>网络设置</a>
+						</li>
+						<li>
+							<a href="waterConfig.html"><i class="fa fa-tint" style="font-size:35px;color:green;"></i><br>水系统配置</a>
+						</li>
+						<li class="active">
+							<a href="update.html"><i class="fa fa-angle-double-up" style="font-size:40px;color:green;"></i><br>设备升级</a>
+						</li>
+						<li>
+							<a href="debugLog.html"><i class="fa fa-key" style="font-size:40px;color:green;"></i><br>调试日志</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+        <!-- Slider -->
+        <div class="slider-container">
+           <iframe name="server" style="display:none;" src=' '></iframe> 
+			<form  id="dataForm" name="dataForm" action="/cgi-bin/update.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
+			<table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px">
+			<caption style="font-size:24px ;font-weight:bold;color:red" " align="top">设备升级</caption></td>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">升级文件上传:</td>
+			<td align="left" valign="middle" >
+			<input type="file" name="updateFile" class="file" id="updateFile" size="5" onchange="" style="margin-left:10px; width:400px;" />  
+			</td>
+            </tr>
+            <tr><td align="center" style="color: black;font-weight:bold;" colspan="2">请使用google chrome浏览器、360浏览器（极速模式），进行升级。<br>
+            升级成功后，data灯会自动熄灭，请断电重启模块。</td>
+             </tr>
+			<tr><td></td><td align="left" style="height:60px;">
+                 <input class ="button" Style="border-radius:5px;background:green;width:150px;height:40px;font-size:24px ;font-weight:bold;color:white" id="btnPost" 
+                 input type="button" name="btnPost" onclick="upload()"  value="确认">
+			</tr>
+			</table>
+			</form>
+			
+			<div id="box">
+				<div id = "proBox">
+					<p id="progress" class="progress"></p>
+					<span id="scale" class="scale">0%</span>
+				</div>
+				<p id = "text"></p>
+			</div>
+			<br><br>
+        </div>
+
+        
+       <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="footer-copyright wow fadeIn" style="height:50px;">
+                        <p>&copy; 中消云物联网科技研究院</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/flexslider/jquery.flexslider-min.js"></script>
+        <script src="assets/js/jflickrfeed.min.js"></script>
+        <script src="assets/js/masonry.pkgd.min.js"></script>
+        <script src="assets/js/jquery.ui.map.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        
+<script type="text/javascript">
+
+var xhr;
+function createXHR()
+{ 
+	try
+    {
+	   // Firefox, Opera 8.0+, Safari
+	    xhr=new XMLHttpRequest();
+    }
+	catch (e)
+	{
+	  // Internet Explorer
+		try
+	    {
+	    	xhr=new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    catch (e)
+	    {
+	    	try
+	        {
+	         	xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	     	}
+	  		catch (e)
+	     	{
+	     		alert("您的浏览器不支持AJAX！");
+	     		return false;
+	     	}
+	  	}
+	}
+	return xhr;
+}
+
+function StatusProcess(returnValue)
+{
+	var str0 = returnValue.split(/\n\/*/g);
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+	str0.forEach(function (eachData)
+	{
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		var SysState=str1[0];
+		if(SysState == "Upload")
+		{
+			UploadState = str1[1];
+		}
+		if(SysState == "Update")
+		{
+			UpdateState = str1[1];
+		}
+	})
+}
+
+function StatusCallback()
+{
+	if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+			var returnValue = xhr.responseText;
+
+			if(returnValue != null && returnValue.length > 0)
+			{
+				StatusProcess(returnValue);
+			}
+			else
+			{
+			    console.log("结果为空！");
+			}
+        } 
+        else 
+        {
+            console.log("页面出现异常！");
+        }
+    }
+}
+
+var timer2;
+function SendGetStatus()
+{
+	 //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+    xhr.open("GET", "/cgi-bin/update.cgi?getstatus" + new Date().getTime());
+    xhr.send(null);
+    timer2 = setTimeout("SendGetStatus()", 2000);
+}
+
+function GetStatus()
+{
+	document.dataForm.action = "/cgi-bin/update.cgi?time=" + + new Date().getTime();
+	$("#dataForm").submit()
+
+	var xhr;
+    xhr = createXHR();
+
+    if(xhr)
+    {
+		xhr.onreadystatechange=StatusCallback;
+		SendGetStatus();
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+function SendUploadCallback()
+{
+	if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+			$("#btnPost").attr('disabled',true);
+			progress(2000);
+        } 
+        else 
+        {
+            console.log("页面出现异常！");
+        }
+    }
+}
+
+function sendUploadCmd()
+{
+	 //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+    xhr.open("GET", "/cgi-bin/update.cgi?uploadcmd" + new Date().getTime());
+    xhr.send(null);
+}
+
+function upload()
+{
+	var xhr;
+    xhr = createXHR();
+
+    if(xhr)
+    {
+		xhr.onreadystatechange=SendUploadCallback;
+		sendUploadCmd();
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+//进度条
+var UploadState=0xff;
+var UpdateState=0xff;
+var num = 0;
+var timer;
+
+function progress(timeValue){
+	var flag=0;
+	SysState = 0;
+	//加载进度条
+	document.getElementById("box").style.display = "block";
+	document.getElementById("text").innerHTML = "正在上传升级文件...<br>请保持电源连接稳定";
+	//清理定时器
+	clearInterval(timer);
+	clearInterval(timer2);
+	timer2 = setTimeout("GetStatus()", 5000);
+	
+	//开启进度条定时器
+	timer = setInterval(function (){
+	    num = num % 100;
+	 	document.getElementById("progress").style.width = num*3 + "px";
+		document.getElementById("scale").innerHTML = num + "%";
+		num++;
+	
+		switch(UploadState)
+		{
+			case "1":
+			    document.getElementById("text").innerHTML = "正在上传升级文件...<br>请保持电源连接稳定";
+			    break;
+			case "2":
+			    flag=1;
+			    document.getElementById("text").innerHTML = "上传文件错误，请重新上传文件！";
+			    alert("上传文件错误，请重新上传文件！");	
+			    break;
+			case "3":
+			    document.getElementById("text").innerHTML = "上传升级文件完成，正在升级....<br>请保持电源连接稳定";
+			    break;
+			case "4":
+			    document.getElementById("text").innerHTML = "正在上传升级文件...<br>请保持电源连接稳定";
+			    flag=1;
+			    alert("文件上传失败，请重新上传！");
+			    break;
+		}
+		
+		switch(UpdateState)
+		{
+			case "0":
+			case "6":
+				flag=1;
+				document.getElementById("text").innerHTML = "请保持电源连接稳定";
+				document.getElementsByClassName("progress")[0].style.width = 100*3 + "px";
+				document.getElementsByTagName("span")[0].innerHTML = 100 + "%";
+				alert("系统更新成功，请断电重启模块！");						
+				break;
+			case "1":
+				flag=1;
+				document.getElementById("text").innerHTML = "请保持电源连接稳定<br>   系统更新失败:MD5校验失败";
+				alert("系统更新失败:MD5校验失败");
+				break;
+			case "2":
+				flag=1;
+				document.getElementById("text").innerHTML = "请保持电源连接稳定<br>     系统更新失败:解压状态失败";
+				alert("系统更新失败:解压状态失败");
+				break;
+			case "3":
+				flag=1;
+				document.getElementById("text").innerHTML = "请保持电源连接稳定<br>     系统更新失败:安装失败";
+				alert("系统更新失败:安装失败");
+				break;
+			case "4":
+				flag=1;
+				document.getElementById("text").innerHTML = "请保持电源连接稳定<br>     系统更新失败:删除升级文件失败";
+				alert("系统更新失败:删除升级文件失败");
+				break;
+		}
+			
+		//关闭定时器
+		if(flag==1)
+		{
+			setTimeout(function (){
+				window.location.reload();
+			}, 100);
+			clearInterval(timer);
+			clearInterval(timer2);
+		}
+	}, timeValue);
+}
+
+
+</script>
+
+</body>
+</html>

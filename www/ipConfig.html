@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TX3251传输模块配置</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="assets/flexslider/flexslider.css">
+        <link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body onload="GetConfig()">
+        
+        <!-- Top menu -->
+		<nav class="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+						<span class="sr-only">&nbsp;</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">&nbsp;</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="top-navbar-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="main.html"><i class="fa fa-calendar" style="font-size:35px;color:green;"></i><br>设备状态</a>
+						</li>
+						<li>
+							<a href="ctrConfig.html"><i class="fa fa-cogs" style="font-size:35px;color:green;"></i><br>控制器设置</a>
+						</li>
+						<li class="active">
+							<a href="ipConfig.html"><i class="fa fa-sitemap" style="font-size:35px;color:green;"></i><br>网络设置</a>
+						</li>
+						<li>
+							<a href="waterConfig.html"><i class="fa fa-tint" style="font-size:35px;color:green;"></i><br>水系统配置</a>
+						</li>
+						<li>
+							<a href="update.html"><i class="fa fa-angle-double-up" style="font-size:40px;color:green;"></i><br>设备升级</a>
+						</li>
+						<li>
+							<a href="debugLog.html"><i class="fa fa-key" style="font-size:40px;color:green;"></i><br>调试日志</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+        <!-- Slider -->
+        <div class="slider-container">
+			<iframe name="server" style="display:none;" src=' '></iframe> 
+			<form id="serverForm" name="serverForm" action="/cgi-bin/ctrConfig.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
+			<table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px">
+            <caption style="font-size:24px ;font-weight:bold;color:red" align="top">云平台网络设置</caption>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">服务器IP:</td>
+			  <td align="left">&nbsp;&nbsp;
+			  <input name="ip" size="30" id="ip">
+			  </td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">端口号:</td>
+			  <td align="left">&nbsp;&nbsp;
+			  <input name="port" size="30" id="port">
+			  </td>
+			</tr>
+			<tr><td></td><td align="left" style="height:60px;">
+                 <input class ="button" Style="border-radius:5px;background:green;width:150px;height:40px;font-size:24px ;font-weight:bold;color:white" id="btnSetCloud" input type="button" name="btnSetCloud" onclick="ServerSubmit()"  value="确认">
+			</tr>
+			</table>
+			</form>
+			
+			<form id="ipForm" name="ipForm" action="/cgi-bin/ipConfig.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
+			<table id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px">
+            <caption style="font-size:24px ;font-weight:bold;color:red" align="top">设备网络配置</caption>
+          	<tr><td align="right" width="40%" style="color: black;font-weight:bold;">网络模式:</td>
+			   <td align="left">&nbsp;&nbsp;
+			   <input type="radio" id=NetAll name="netmode" value="0"l checked="checked">有线+无线
+			   &nbsp;&nbsp;&nbsp;&nbsp;
+			   <input type="radio" id=NetNoWire name="netmode" value="1">无线
+			   &nbsp;&nbsp;&nbsp;&nbsp;
+			   <input type="radio" id=NetWire name="netmode" value="2">有线
+			   </td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">自动获取IP地址:</td>
+			   <td align="left">&nbsp;&nbsp;
+			   <input type="checkbox" id="autoipid" name="autoip" value="1" onclick="AutoIp(this)">
+			   </td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">IP地址:</td>
+			   <td align="left">&nbsp;&nbsp;
+			   <input name="ipaddress" size="30" id="ipaddressid">
+			   </td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">子网掩码:</td>
+			    <td align="left">&nbsp;&nbsp;
+				<input name="netmask" size="30" id="netmaskid">
+				</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">默认网关:</td>
+			    <td align="left">&nbsp;&nbsp;
+				<input name="gateway" size="30" id="gatewayid">
+				</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">首选DNS服务器:</td>
+			    <td align="left">&nbsp;&nbsp;
+				<input name="dns1" size="30" id = "dns1id">
+				</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">备用DNS服务器:</td>
+			    <td align="left">&nbsp;&nbsp;
+				<input name="dns2" size="30" id="dns2id">
+				</td>
+			</tr>
+			<tr><td></td><td align="left" style="height:60px;">
+                 <input class ="button" Style="border-radius:5px;background:green;width:150px;height:40px;font-size:24px ;font-weight:bold;color:white" id="btnSetIp" input type="button" name="btnSetIp" onclick="IpSubmit()"  value="确认">
+			</tr>
+			</table>
+			</form>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="footer-copyright wow fadeIn" style="height:50px;">
+                        <p>&copy; 中消云物联网科技研究院</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/flexslider/jquery.flexslider-min.js"></script>
+        <script src="assets/js/jflickrfeed.min.js"></script>
+        <script src="assets/js/masonry.pkgd.min.js"></script>
+        <script src="assets/js/jquery.ui.map.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+
+<script type="text/javascript">
+
+function createXHR()
+{ 
+	try
+    {
+	   // Firefox, Opera 8.0+, Safari
+	    xhr=new XMLHttpRequest();
+    }
+	catch (e)
+	{
+	  // Internet Explorer
+		try
+	    {
+	    	xhr=new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    catch (e)
+	    {
+	    	try
+	        {
+	         	xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	     	}
+	  		catch (e)
+	     	{
+	     		alert("您的浏览器不支持AJAX！");
+	     		return false;
+	     	}
+	  	}
+	}
+	return xhr;
+ }
+
+var xhr;
+function GetConfig() 
+{
+    xhr = createXHR();
+    if(xhr)
+    {
+        xhr.onreadystatechange=callbackFunction;
+    
+        //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+        xhr.open("GET", "cgi-bin/ipConfig.cgi?getconf" + new Date().getTime());
+        xhr.send(null);
+    }
+}
+
+//数据处理函数
+function dataProcess(returnValue){
+	//以/\n切割字符串
+	var str0 = returnValue.split('/');
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+	
+	str0.forEach(function (eachData){
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		//console.log(str1[0]);
+		switch(str1[0]){
+		    case "autoip":
+				var autostatus=Number(str1[1]);
+				if(1 == autostatus)
+				{
+					autoip=1;
+					document.getElementById("autoipid").checked=true;
+					document.getElementById("ipaddressid").readOnly = true;
+					document.getElementById("netmaskid").readOnly = true;
+					document.getElementById("gatewayid").readOnly = true;
+					document.getElementById("dns1id").readOnly = true;
+					document.getElementById("dns2id").readOnly = true;			 
+				}
+				else
+				{
+					autoip=0;
+					document.getElementById("autoipid").checked=false;	
+					document.getElementById("autoipid").checked=false;
+					document.getElementById("ipaddressid").readOnly = false;
+					document.getElementById("netmaskid").readOnly = false;
+					document.getElementById("gatewayid").readOnly = false;
+					document.getElementById("dns1id").readOnly = false;
+					document.getElementById("dns2id").readOnly = false;	
+				}
+				break;
+			case "netmode":
+				var netmode=Number(str1[1]);
+				if(netmode == 0)
+				{
+					document.getElementById("NetAll").checked=true;
+				}
+				else if(netmode == 1)
+				{
+					document.getElementById("NetNoWire").checked=true;
+				}
+				else
+				{
+				   document.getElementById("NetWire").checked=true;
+				}
+				break;
+			case "ipaddress":
+				document.getElementById("ipaddressid").value = str1[1];				
+				break;
+			case "netmask":
+				document.getElementById("netmaskid").value = str1[1];
+				break;
+			case "gateway":
+				document.getElementById("gatewayid").value = str1[1];
+				break;
+			case "dns1":
+				document.getElementById("dns1id").value = str1[1];
+				break;
+			case "dns2":
+				document.getElementById("dns2id").value = str1[1];
+				break;
+			case "Ip":
+				document.getElementById("ip").value = str1[1];
+				break;
+			case "Port":
+				document.getElementById("port").value = str1[1];
+				break;
+			case "readend":
+				xhr.abort();
+				break;
+		}
+	})
+}
+		
+/*
+ *异步回调函数处理
+ */
+function callbackFunction()
+{
+    if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+              dataProcess(returnValue);
+				xhr = createXHR();
+				
+				if(xhr)
+				{
+				    xhr.onreadystatechange=callbackFunction2;
+				
+				    //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+				    xhr.open("GET", "cgi-bin/readConfig.cgi?getconf"+ new Date().getTime());
+				    xhr.send(null);
+				}
+				else
+				{
+				    //XMLHttpRequest对象创建失败
+				    alert("浏览器不支持，请更换浏览器！");
+				}
+            }
+           else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+           console.log("页面出现异常！");
+        }
+    }
+}
+
+function callbackFunction2()
+{
+    if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+			var returnValue = xhr.responseText;
+			
+			if(returnValue != null && returnValue.length > 0)
+			{
+				dataProcess(returnValue);
+			}
+			else
+			{
+				console.log("结果为空！");
+			}
+        } 
+        else 
+        {
+           console.log("页面出现异常！");
+        }
+    }
+}	
+
+var autoip=1;
+var AutoIp = function(dom) 
+{
+    if (dom.checked) 
+    {
+    	autoip=1;
+        document.getElementById("ipaddressid").readOnly = true;
+        document.getElementById("netmaskid").readOnly = true;
+        document.getElementById("gatewayid").readOnly = true;
+        document.getElementById("dns1id").readOnly = true;
+        document.getElementById("dns2id").readOnly = true;
+    }
+    else
+    {
+    	autoip=0;
+        document.getElementById("ipaddressid").readOnly = false;
+        document.getElementById("netmaskid").readOnly = false;
+        document.getElementById("gatewayid").readOnly = false;
+        document.getElementById("dns1id").readOnly = false;
+        document.getElementById("dns2id").readOnly = false;
+    }
+}
+	
+function ServerSubmit()
+{
+   document.serverForm.submit();
+   document.getElementById("btnSetCloud").disabled = true;
+   document.getElementById("btnSetCloud").style.background="gray";
+   setTimeout(function (){
+		alert("设置成功！");
+		window.location.reload();
+	},2000);
+}
+
+function IpSubmit()
+{
+   document.ipForm.submit();
+   document.getElementById("btnSetIp").disabled = true;
+   document.getElementById("btnSetIp").style.background="gray";
+   setTimeout(function (){
+		alert("设置成功！IP更改后，模块将自动重启，请等待！");
+		window.location.reload();
+	},2000);
+}
+
+</script>
+
+</body>
+</html>

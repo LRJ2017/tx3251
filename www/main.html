@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TX3251传输模块配置</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="assets/flexslider/flexslider.css">
+        <link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+		<link rel="stylesheet" href="assets/css/language.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body onload="GetConfig()">
+        
+        <!-- Top menu -->
+		<nav class="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+						<span class="sr-only">&nbsp;</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">&nbsp;</a>
+				</div>
+				
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="top-navbar-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active">
+							<a href="main.html" id = "main_a" ><i class="fa fa-calendar" style="font-size:35px;color:green;"></i><br><label></label></a>
+						</li>
+						<li>
+							<a href="ctrConfig.html"><i class="fa fa-cogs" style="font-size:35px;color:green;"></i><br><label></label></a>
+						</li>
+						<li>
+							<a href="ipConfig.html"><i class="fa fa-sitemap" style="font-size:35px;color:green;"></i><br><label></label></a>
+						</li>
+						<li>
+							<a href="waterConfig.html"><i class="fa fa-tint" style="font-size:35px;color:green;"></i><br><label></label></a>
+						</li>
+						<li>
+							<a href="update.html"><i class="fa fa-angle-double-up" style="font-size:40px;color:green;"></i><br><label></label></a>
+						</li>
+						<li>
+							<a href="debugLog.html"><i class="fa fa-key" style="font-size:40px;color:green;"></i><br><label></label></a>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="translate_wrapper" style="text-align:left">
+				  <div class="current_lang">
+					<div class="lang">
+					  <img src="assets/img/299722.svg">
+					  <span class="lang-txt">EN</span> 
+					  <span class="fa fa-chevron-down chevron"></span>
+					</div>
+				  </div>
+				  <div class="more_lang">  
+					<div class="lang" data-value='cn'>
+					  <img src="assets/img/299914.svg">
+					  <span class="lang-txt">简体中文</span>      
+					</div>
+					<div class="lang selected" data-value='en'>
+					  <img src="assets/img/299722.svg">
+					  <span class="lang-txt">English</span>      
+					</div> 
+				  </div>
+				</div>
+			</div>
+		</nav>
+
+        <!-- Slider -->
+        <div class="slider-container">
+			<table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px">
+			<caption id="table-caption" style="font-size:24px ;font-weight:bold;color:red"  align="top"></caption>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">运行状态:</td>
+			<td align="left">&nbsp;
+			<input style="text-align:center;border-radius:5px;background: red; width:120px;height:30px;font-size:18px ;font-weight:bold;color:white" 
+			 id="ServerStatus"  disabled="true"  value="服务停止" >
+			</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">网络状态:</td>
+			<td align="left">&nbsp;
+			<input style="text-align:center;border-radius:5px;background: red;width:120px;height:30px;font-size:18px ;font-weight:bold;color:white" 
+			 id="NetStatus"  disabled="true"  value="网络异常" >
+			</td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">硬件版本号:</td>
+			<td id = "HardVersion" align="left"></td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">软件版本号:</td>
+			<td id = "SoftVersion" align="left"></td>
+			</tr>
+			<tr style="display:none"><td align="right" width="40%" style="color: black;font-weight:bold;">升级时间:</td>
+			<td id = "UpdateTime" align="left"></td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">MAC:</td>
+			<td id = "MAC" align="left"></td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">适配器ID:</td>
+			<td id = "AdapterID" style="font-weight:bold" align="left"></td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">IMEI:</td>
+			<td id = "IMEI" align="left"></td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">服务器IP:</td>
+			<td id="Ip" align="left"></td>
+			</tr>
+			<tr><td align="right" width="40%" style="color: black;font-weight:bold;">端口号:</td>
+			<td id="Port" align="left"></td>
+			</tr>
+			</table>
+			<br><br>
+        </div>
+
+        
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="footer-copyright wow fadeIn" style="height:50px;">
+                        <p>&copy; 中消云物联网科技研究院</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/flexslider/jquery.flexslider-min.js"></script>
+        <script src="assets/js/jflickrfeed.min.js"></script>
+        <script src="assets/js/masonry.pkgd.min.js"></script>
+        <!--<script src="assets/js/jquery.ui.map.min.js"></script>-->
+        <script src="assets/js/scripts.js"></script>
+		<script src="assets/js/language.js"></script>
+		<script src="assets/js/vue.js"></script>
+		<script src="https://unpkg.com/vue-i18n/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+		
+<script type="text/javascript">
+
+function StatusProcess(returnValue)
+{
+	var str0 = returnValue.split(/\n\/*/g);
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+	str0.forEach(function (eachData)
+	{
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		console.log(str1[0]);
+		SysState=str1[0];
+		
+		if(SysState == "Server")
+		{
+			switch(str1[1])
+			{
+				case "Run":
+					document.getElementById("ServerStatus").value="服务启动";
+					document.getElementById("ServerStatus").style.background="green";
+					break;
+				case "Stop":
+					document.getElementById("ServerStatus").value="服务停止";
+					document.getElementById("ServerStatus").style.background="red";
+				break;
+			}
+		}
+		if(SysState == "Net")
+		{
+			switch(str1[1])
+			{
+				case "Run":
+					document.getElementById("NetStatus").value="网络正常";
+					document.getElementById("NetStatus").style.background="green";
+					break;
+				case "Stop":
+					document.getElementById("NetStatus").value="网络异常";
+					document.getElementById("NetStatus").style.background="red";
+				break;
+			}
+		}
+	})
+}
+
+function StatusCallback()
+{
+	if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+            	console.log(returnValue);
+        		StatusProcess(returnValue);
+            }
+            else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+            console.log("页面出现异常！");
+        }
+    }
+}
+function SendGetStatus()
+{
+	 //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+    xhr.open("GET", "/cgi-bin/readConfig.cgi?getstatus" + new Date().getTime());
+    xhr.send(null);
+    setTimeout("SendGetStatus()", 5000);
+}
+
+function GetConnect()
+{
+	var xhr;
+    xhr = createXHR();
+
+    if(xhr)
+    {
+		xhr.onreadystatechange=StatusCallback;
+		SendGetStatus();
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+//数据处理函数
+function dataProcess(returnValue){
+	
+	//以/\n切割字符串
+	var str0 = returnValue.split('/');
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+	str0.forEach(function (eachData){
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		//console.log(str1[0]);
+		switch(str1[0]){
+			case "HardVersion":
+				document.getElementById("HardVersion").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "SoftVersion":
+				document.getElementById("SoftVersion").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "UpdateTime":
+				document.getElementById("UpdateTime").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "MAC":
+				document.getElementById("MAC").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "CPUID":
+				var strmachine = "01_TX3251_";
+							
+				strmachine += str1[1];
+				document.getElementById("AdapterID").innerHTML = "&nbsp;&nbsp;" + strmachine;	
+				break;
+			case "controllertype":
+				break;
+			case "IMEI":
+				document.getElementById("IMEI").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "Ip":
+				document.getElementById("Ip").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "Port":
+				document.getElementById("Port").innerHTML = "&nbsp;&nbsp;" + str1[1];
+				break;
+			case "controllerid":
+				break;
+			case "Portselect":
+				break;
+			case "bau232":		
+				break;
+			case "bau485":
+				break;
+			case "Lib232":					
+				break;
+			case "Lib485":						
+				break;
+			case "setnet232":							
+				break;
+			case "setnet485":			
+				break;
+			case "readend":
+				xhr.abort();
+				GetConnect();
+				break;
+		}
+	})
+}
+
+ /*
+ *异步回调函数处理
+ */
+function callbackFunction()
+{
+    if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+            	  console.log(returnValue);
+                dataProcess(returnValue);
+            }
+            else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+           console.log("页面出现异常！");
+        }
+    }
+}	
+
+/*
+ *创建异步访问对象
+ */
+function createXHR()
+{ 
+	try
+    {
+	   // Firefox, Opera 8.0+, Safari
+	    xhr=new XMLHttpRequest();
+    }
+	catch (e)
+	{
+	  // Internet Explorer
+		try
+	    {
+	    	xhr=new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    catch (e)
+	    {
+	    	try
+	        {
+	         	xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	     	}
+	  		catch (e)
+	     	{
+	     		alert("您的浏览器不支持AJAX！");
+	     		return false;
+	     	}
+	  	}
+	}
+	return xhr;
+ }
+
+/*
+ *异步访问提交处理
+ */
+function GetConfig() 
+{
+	
+	IsSelect232Port=0;
+	IsSelect485Port=0;
+	var xhr;
+	//document.getElementById("setnet232").style.display = "none";
+    //document.getElementById("selbau232").style.display = "none";
+    //document.getElementById("setnet485").style.display = "none";
+    //document.getElementById("selbau485").style.display = "none";
+    xhr = createXHR();
+
+    if(xhr)
+    {
+        xhr.onreadystatechange=callbackFunction;
+    
+        //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+        xhr.open("GET", "/cgi-bin/readConfig.cgi?getconf" + new Date().getTime());
+        xhr.send(null);
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+</script>
+
+</body>
+</html>

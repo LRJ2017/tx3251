@@ -1,0 +1,43 @@
+###################################
+#    Tanda Adapter Config File    #
+###################################
+
+#HardVersion
+HardVersion=v1.03
+
+
+#SoftVersion
+SoftVersion=v2.01
+
+#SysType
+SysType=01
+
+
+#IMEI
+IMEI=00F23E012
+
+
+Service IP
+ip=www.jzxfyun.net
+
+#Service Port
+port=5000
+
+#1 is 232 , 2 is 485 , 3 is all
+portenable=1
+
+#Baudrate
+baudrate232=9600
+
+
+#protocolName232
+protocolName232=./Tanda3016_232.so
+
+
+#Baudrate485
+baudrate485=9600
+
+#protocolName
+protocolName485=./Tanda3016_485.so
+
+
